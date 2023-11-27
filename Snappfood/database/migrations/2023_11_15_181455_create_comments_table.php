@@ -15,7 +15,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->integer('score');
             $table->string('body');
-            $table->string('response');
+            $table->string('response')->nullable();
             $table->boolean('is_confirmed')->default(false);
             $table->boolean('request_for_deleting')->default(false);
             $table->unsignedBigInteger('customer_id');

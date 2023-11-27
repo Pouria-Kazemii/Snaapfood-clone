@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('type_of_foods', function (Blueprint $table) {
+        Schema::create('type_of_food', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('type');
             $table->timestamps();
