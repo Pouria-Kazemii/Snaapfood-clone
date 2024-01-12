@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class FoodParty extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'food_id',
+        'discount_percent',
+        'quantity'
+    ];
 }

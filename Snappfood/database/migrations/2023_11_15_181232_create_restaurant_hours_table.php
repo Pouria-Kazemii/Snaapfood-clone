@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('restaurant_hours', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('day');
-            $table->time('opening_time');
-            $table->time('closing_time');
+            $table->time('opening_time')->nullable();
+            $table->time('closing_time')->nullable();
+            $table->boolean('is_open');
             $table->unsignedBigInteger('restaurant_id');
             $table->timestamps();
             $table->foreign('restaurant_id')

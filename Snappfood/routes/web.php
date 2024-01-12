@@ -7,7 +7,13 @@ use App\Http\Controllers\admin\TypeOfRestaurantController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\restaurants\CommentController;
+use App\Http\Controllers\restaurants\FoodController;
+use App\Http\Controllers\restaurants\FoodPartyController;
 use App\Http\Controllers\restaurants\RestaurantsController;
+use App\Http\Controllers\restaurants\SellReportController;
+use App\Http\Controllers\restaurants\SettingController;
+use App\Http\Controllers\restaurants\WorkingHourController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -55,13 +61,46 @@ Route::group(['middleware' => 'admin'],function (){
     Route::put('/admin/restaurant_types/{id}', [TypeOfRestaurantController::class , 'update']);
 
     //Discount
-    Route::get('/admin/discounts' , [DiscountController::class , 'index'])->name('admin.discounts');
+    Route::get('/admin/discounts/' , [DiscountController::class , 'index'])->name('admin.discounts');
     Route::delete('/admin/discounts/{id}' , [DiscountController::class , 'delete']);
     Route::post('admin/discounts',[DiscountController::class , 'store']);
 
 });
 
-
 //Restaurant Routes
-Route::get('/restaurants/{name}' , [RestaurantsController::class , 'index'])->name('restaurant.home');
+Route::group(['middleware' => 'restaurant'],function (){
+    //Basic Routes
+    Route::get('/restaurant/{name}' , [RestaurantsController::class , 'index'])->name('restaurant.home');
+    Route::post('restaurant/{name}/logout' , [RestaurantsController::class , 'logout']);
+    //Order Route
+    Route::put('restaurant/{name}/{id}',[RestaurantsController::class , 'orders']);
+
+    //Foods Routes
+    Route::resource('/restaurant/{name}/foods' , FoodController::class);
+    Route::post('/restaurant/{name}/foods/search' , [FoodController::class , 'search']);
+    Route::post('/restaurant/{name}/foods/{id}' , [\App\Http\Controllers\restaurants\DiscountController::class , 'store']);
+    Route::post('restaurant/{name}/foods/{id}/add_to_food_party' , [FoodPartyController::class , 'store']);
+
+    //Sell Reports Routes
+    Route::get('/restaurant/{name}/sell_report' , [SellReportController::class , 'index']);
+    Route::post('/restaurant/{name}/sell_report' , [SellReportController::class , 'search']);
+
+    //Comments Routes
+    Route::get('/restaurant/{name}/comments',[CommentController::class , 'index']);
+    Route::post('/restaurant/{name}/comments/{id}',[CommentController::class , 'sendResponse']);
+    Route::put('/restaurant/{name}/comments/{id}',[CommentController::class , 'confirm']);
+    Route::delete('/restaurant/{name}/comments/{id}',[CommentController::class , 'delete']);
+
+    //Setting Routes
+    Route::get('/restaurant/{name}/settings', [SettingController::class , 'index'])->name('restaurant.settings');
+    Route::put('/restaurant/{name}/settings/update_status' , [SettingController::class , 'updateStatus']);
+    Route::post('/restaurant/{name}/settings/update_restaurant',[SettingController::class , 'updateRestaurant']);
+    Route::get('/restaurant/{name}/settings/working_hours' , [WorkingHourController::class , 'index']);
+    Route::post('/restaurant/{name}/settings/change_working_hours' , [WorkingHourController::class , 'create']);
+    Route::get('/restaurant/{name}/settings/type_of_restaurant' , [\App\Http\Controllers\restaurants\TypeOfRestaurantController::class , 'index']);
+    Route::post('/restaurant/{name}/settings/type_of_restaurant' , [\App\Http\Controllers\restaurants\TypeOfRestaurantController::class , 'create']);
+    Route::delete('/restaurant/{name}/settings/type_of_restaurant/{id}' , [\App\Http\Controllers\restaurants\TypeOfRestaurantController::class , 'delete']);
+
+
+});
 

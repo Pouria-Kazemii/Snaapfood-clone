@@ -11,6 +11,16 @@ class Food extends Model
 
     protected $table= 'foods';
 
+    protected $fillable=[
+      'name',
+      'price',
+      'raw_material',
+        'image_path',
+        'type_of_food_id',
+        'restaurant_id',
+        'is_deleted'
+    ];
+
     public function restaurant()
     {
         return $this->belongsTo(Restaurant::class);
@@ -18,6 +28,16 @@ class Food extends Model
     public function discounts()
     {
         return $this->hasMany(Discount::class);
+    }
+
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
+
+    public function typeOfFood()
+    {
+        return $this->belongsTo(TypeOfFood::class);
     }
 
 }

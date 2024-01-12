@@ -10,7 +10,9 @@ class Comment extends Model
     use HasFactory;
 
     protected $fillable = [
-      'request_for_deleting'
+      'request_for_deleting',
+        'is_confirmed',
+        'response'
     ];
     public function customer()
     {

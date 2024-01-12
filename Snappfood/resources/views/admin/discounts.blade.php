@@ -2,15 +2,16 @@
 @section('content')
     <div class="container mt-4">
 
-        @if($errors)
-            <div class="mt-4 text-left">
-                @foreach($errors->all() as $error)
-                    <li class="text-warning">
-                        {{$error}}
-                    </li>
-                @endforeach
+        @if($errors->any())
+            <div class="alert alert-danger text-center">
+                <ul class="list-unstyled">
+                    @foreach($errors->all() as $error)
+                        <li class="text-warning">{{ $error }}</li>
+                    @endforeach
+                </ul>
             </div>
         @endif
+
         <h2>Create Discount</h2>
         <form action="/admin/discounts" method="post">
             @csrf

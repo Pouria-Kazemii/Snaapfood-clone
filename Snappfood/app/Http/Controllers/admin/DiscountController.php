@@ -28,20 +28,19 @@ class DiscountController extends Controller
 
     public function store(DiscountRequest $request)
     {
-        $discounts = Discount::all();
         $validateData = $request->validated();
+
         $new_discount = Str::random(20);
-        foreach ($discounts as $discount){
-            if ($discount == $new_discount){
-                $new_discount = Str::random(20);
-            }
+        if (!Discount::where('value' ,'LIKE',$new_discount)->first()){
+            Discount::create([
+                'value' => $new_discount,
+                'percent' => $validateData['percent'],
+                'food_id' => $validateData['food_id']
+            ]);
+        }else{
+        return redirect()->route('admin.discounts')->whitErrors('something wrong . plz try again') ;
         }
 
-        Discount::create([
-            'value' => $new_discount,
-            'percent' => $validateData['percent'],
-            'food_id' => $validateData['food_id']
-        ]);
 
         return redirect()->route('admin.discounts');
     }

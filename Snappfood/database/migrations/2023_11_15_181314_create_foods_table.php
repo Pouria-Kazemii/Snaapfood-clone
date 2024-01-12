@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('image_path')->nullable();
             $table->unsignedBigInteger('type_of_food_id');
             $table->unsignedBigInteger('restaurant_id');
+            $table->boolean('is_deleted')->default(false);
             $table->timestamps();
             $table->foreign('type_of_food_id')
                 ->references('id')

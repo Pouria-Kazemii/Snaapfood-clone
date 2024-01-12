@@ -12,9 +12,11 @@ class AdminController extends Controller
     public function index()
     {
         $comments = Comment::where('request_for_deleting' , true)->get();
+
         return view('admin.home',[
-            'comments' => $comments
+               'comments' => $comments
         ]);
+
     }
 
     public function deleteComment(string $id)

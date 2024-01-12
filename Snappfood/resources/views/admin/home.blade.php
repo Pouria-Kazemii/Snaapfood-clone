@@ -16,10 +16,7 @@
 
                         <div class="mb-3">
                             <h5 class="card-title">Restaurant:</h5>
-                            @foreach ($comment->order->orderItems as $orderItem)
-                                <p class="card-text">{{$orderItem->food->restaurant->name}}</p>
-                                @break
-                            @endforeach
+                                <p class="card-text">{{$comment->order->orderItems->first()->food->restaurant->name}}</p>
                         </div>
 
                         <div>

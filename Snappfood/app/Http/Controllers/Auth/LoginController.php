@@ -35,7 +35,7 @@ class LoginController extends Controller
 
             if ($user->role_id == 'restaurant'){
                 $restaurantName = $user->restaurant->name;
-                return redirect()->intended("/restaurants/$restaurantName");
+                return redirect()->intended("/restaurant/$restaurantName");
             }
         }
     }
