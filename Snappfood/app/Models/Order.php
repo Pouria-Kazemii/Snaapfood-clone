@@ -11,8 +11,17 @@ class Order extends Model
 
     protected $fillable = [
         'is_finished',
-        'status'
+        'status',
+        'customer_id',
+        'total_amount'
     ];
+
+    public function calculateTotalAmount()
+    {
+        return $this->orderItems->sum(function ($item) {
+            return $item->quantity * $item->food->price;
+        });
+    }
 
     protected $table = 'orders';
     public function orderItems()
@@ -22,5 +31,10 @@ class Order extends Model
     public function customer()
     {
         return $this->belongsTo(Customer::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 }

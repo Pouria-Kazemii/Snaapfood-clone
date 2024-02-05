@@ -13,7 +13,7 @@ class RestaurantsController extends Controller
     public function index(string $name)
     {
 
-        $orders = Order::where('is_finished' , false)->get();
+        $orders = Order::where('is_finished' , true)->where('status', '!=' , 'delivered' )->get();
         $restaurant = Restaurant::where('name' , $name)->first();
 
         $this->authorize('ordersRead', $restaurant);
@@ -33,11 +33,6 @@ class RestaurantsController extends Controller
         Order::where('id' , $id)->update([
             'status' => $request->input('status')
         ]);
-        if ($request->input('status') == 'delivered'){
-            Order::find($id)->update([
-                'is_finished' => true
-            ]);
-        } ;
 
         return redirect()->route('restaurant.home' , [
             'name' => $name

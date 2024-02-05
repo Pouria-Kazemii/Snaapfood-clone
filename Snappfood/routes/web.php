@@ -43,6 +43,7 @@ Route::group(['middleware' => 'admin'],function (){
     //Basic Routes
     Route::get('/admin',[AdminController::class , 'index'])->name('admin.home');
     Route::post('admin/logout' , [AdminController::class , 'logout']);
+
     //Delete Comments
     Route::put('/admin/{id}' , [AdminController::class , 'stayComment']);
     Route::delete('/admin/{id}' , [AdminController::class , 'deleteComment']);

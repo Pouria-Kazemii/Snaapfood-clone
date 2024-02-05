@@ -12,7 +12,11 @@ class Comment extends Model
     protected $fillable = [
       'request_for_deleting',
         'is_confirmed',
-        'response'
+        'response',
+        'score',
+        'body',
+        'order_id',
+        'customer_id'
     ];
     public function customer()
     {

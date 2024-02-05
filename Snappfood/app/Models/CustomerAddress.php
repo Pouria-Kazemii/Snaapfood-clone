@@ -7,5 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class CustomerAddress extends Model
 {
+    protected $fillable = [
+        'address_title',
+        'address',
+        'latitude',
+        'longitude',
+        'is_default',
+        'customer_id'
+    ];
+
     use HasFactory;
 }

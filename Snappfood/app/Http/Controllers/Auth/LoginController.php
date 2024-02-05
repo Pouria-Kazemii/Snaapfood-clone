@@ -22,19 +22,24 @@ class LoginController extends Controller
         if (!Auth::attempt($credentials)){
             return view('auth.login')->withErrors(['error' => 'invalid username or password']);
         } else{
-            Auth::login($user);
             $user->recordActivity();
 
             if($user->role_id == 'customer'){
-                return redirect()->route('customer');
+                Auth::guard('sanctum')->user();
+                $token = $user->createToken('apiToken')->plainTextToken;
+                return $token;
+
             }
 
             if($user->role_id == 'admin'){
+                Auth::login($user);
                 return redirect()->route('admin.home');
+
             }
 
             if ($user->role_id == 'restaurant'){
                 $restaurantName = $user->restaurant->name;
+                Auth::login($user);
                 return redirect()->intended("/restaurant/$restaurantName");
             }
         }
